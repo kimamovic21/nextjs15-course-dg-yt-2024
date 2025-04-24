@@ -17,9 +17,17 @@
         "name": "next"
       }
     ],
+<<<<<<< HEAD
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]  
+=======
+    "baseUrl": "src",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+>>>>>>> 834a2e8d6bee148c9add7a6044621cb94fc63d54
     },
     "target": "ES2017"
   },
