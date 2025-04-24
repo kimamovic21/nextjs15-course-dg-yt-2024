@@ -1,6 +1,26 @@
-"use client"
+// app/dev-only/sentry-example-page/page.tsx
+"use client";
 
-export default function Page() {
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-    throw new Error("Sentry Test Frontend Error")
+export default function DevOnlySentryExamplePage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") {
+      router.replace("/");
+    }
+  }, [router]);
+
+  if (process.env.NODE_ENV === "production") {
+    return null;
+  }
+
+  return (
+    <div>
+      <h1>Dev-only Sentry Page</h1>
+      <p>This page is only visible in development.</p>
+    </div>
+  );
 }
