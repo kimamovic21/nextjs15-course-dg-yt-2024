@@ -8,14 +8,14 @@ import { InputWithLabel } from "@/components/inputs/InputWithLabel"
 import { SelectWithLabel } from "@/components/inputs/SelectWithLabel"
 import { TextAreaWithLabel } from "@/components/inputs/TextAreaWithLabel"
 import { CheckboxWithLabel } from "@/components/inputs/CheckboxWithLabel"
-import { selectCustomerSchemaType } from "@/zod-schemas/customer"
 import {
   insertTicketSchema,
   type insertTicketSchemaType,
   type selectTicketSchemaType
 } from "@/zod-schemas/ticket"
+import { selectCustomerSchemaType } from "@/zod-schemas/customer"
 import { useAction } from 'next-safe-action/hooks'
-import { saveTicketAction } from "@/app/actions/saveTicketActions"
+import { saveTicketAction } from "@/app/actions/saveTicketActions" 
 import { useToast } from '@/hooks/use-toast'
 import { LoaderCircle } from 'lucide-react'
 import { DisplayServerActionResponse } from "@/components/DisplayServerActionResponse"
@@ -28,12 +28,12 @@ type Props = {
     description: string,
   }[],
   isEditable?: boolean,
+  isManager?: boolean | undefined
 }
 
 export default function TicketForm({
-  customer, ticket, techs, isEditable = true
+  customer, ticket, techs, isEditable = true, isManager = false
 }: Props) {
-  const isManager = Array.isArray(techs)
 
   const { toast } = useToast()
 
@@ -43,7 +43,7 @@ export default function TicketForm({
     title: ticket?.title ?? '',
     description: ticket?.description ?? '',
     completed: ticket?.completed ?? false,
-    tech: ticket?.tech ?? 'new-ticket@example.com',
+    tech: ticket?.tech.toLowerCase() ?? 'new-ticket@example.com',
   }
 
   const form = useForm<insertTicketSchemaType>({
@@ -107,7 +107,7 @@ export default function TicketForm({
               disabled={!isEditable}
             />
 
-            {isManager ? (
+            {isManager && techs ? (
               <SelectWithLabel<insertTicketSchemaType>
                 fieldTitle="Tech ID"
                 nameInSchema="tech"
